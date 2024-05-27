@@ -1,0 +1,93 @@
+:root {
+    --primary-color-light: rgb(90, 255, 186);
+    --primary-color: rgb(0, 217, 127);
+    --primary-color-dark: rgb(2, 185, 109);
+}
+
+h1 {
+    text-align: center;
+}
+
+.auth_cont .web_title {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+}
+
+.auth_first,
+.auth_second {
+    display: block;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth_first {
+    width: 60%;
+}
+
+.auth_first form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth_first form .link {
+    align-self: flex-end;
+    font-weight: bold;
+}
+
+.auth_first form input[type="submit"] {
+    align-self: center;
+}
+
+.auth_second {
+    width: 40%;
+    background-image: linear-gradient(120deg, var(--primary-color-dark), var(--primary-color), var(--primary-color-light));
+    padding-inline: 20px;
+}
+
+.auth_second p,
+.auth_second h1 {
+    color: white;
+    text-align: center;
+}
+
+.mobile_alt {
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .auth_first {
+        padding: 30px;
+    }
+
+    .auth_first form {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .auth_second {
+        display: none;
+    }
+
+    .auth_first {
+        width: 100%;
+        padding-inline: 60px;
+    }
+
+    .mobile_alt {
+        display: block;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .auth_first {
+        padding-inline: 20px;
+    }
+}
