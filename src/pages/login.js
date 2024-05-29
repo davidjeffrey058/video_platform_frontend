@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Title from '../components/title';
 import { useLogin } from '../hooks/useLogin';
+import Spinner from '../components/spinner';
 
 const Login = () => {
     const [email, setEmail] = useState();
@@ -32,12 +33,16 @@ const Login = () => {
                         <Link className='link' to={'/resetpass'}>
                             <p>Forgot Password?</p>
                         </Link>
-                        <input className='custom_btn primary' type="submit"
+
+                        {/* Login button */}
+                        <input disabled={isLoading} className={`custom_btn ${isLoading ? 'disabled' : 'primary'}`} type="submit"
                             value="Login" style={{
                                 width: '200px',
                             }} />
                     </form><br />
-                    {isLoading && <div>Loading...</div>}
+
+                    {isLoading && <Spinner width={'80px'} />}
+
                     {error && <div className='error'>{error}</div>}
 
                     <div className="mobile_alt">

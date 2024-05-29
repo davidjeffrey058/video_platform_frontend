@@ -8,6 +8,7 @@ import PopUp from '../components/popUp';
 import Icon from '../components/icon';
 import HorizontalSpacer from '../components/horizontalSpacer';
 import AddVideo from '../components/addVideo';
+import Spinner from '../components/spinner';
 
 const Home = () => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -53,7 +54,10 @@ const Home = () => {
                     </div>
                 </header>
 
-                {isLoading && <p>Loading...</p>}
+                {/* When the data is loading */}
+                {isLoading && <div className='center' style={{ height: '70dvh' }}>
+                    <Spinner />
+                </div>}
 
                 {/* When there is data */}
                 {data && data.doc_count > 0 && <div>
@@ -86,8 +90,6 @@ const Home = () => {
 
 
                     </div>
-
-                    {/* pop up */}
 
                 </div>}
 

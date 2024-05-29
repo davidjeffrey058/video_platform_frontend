@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Title from '../components/title';
 import { useSignup } from '../hooks/useSignup';
 import { Link, } from 'react-router-dom';
+import Spinner from '../components/spinner';
 
 const Signup = () => {
     const [email, setEmail] = useState();
@@ -40,7 +41,7 @@ const Signup = () => {
                             }} />
                     </form>
                     <br />
-                    {isLoading && <div>Loading...</div>}
+                    {isLoading && <Spinner width={'80px'} />}
                     {error && <div className='error'>{error}</div>}
                     {message && <div className="success">{message}</div>}
 
