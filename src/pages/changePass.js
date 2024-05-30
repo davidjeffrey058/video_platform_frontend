@@ -3,6 +3,7 @@ import { useState } from "react";
 import { url } from "../methods/urls";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Spinner from "../components/spinner";
 
 const ChangePass = () => {
     const [password, setPassword] = useState();
@@ -56,7 +57,7 @@ const ChangePass = () => {
                 <div className="flex spc_btw">
                     {data && <div className="success">{data.message}</div>}
                     {error && <div className="error">{error}</div>}
-                    {isLoading && <div>Loading...</div>}
+                    {isLoading && <div style={{ textAlign: 'center' }}><Spinner width={'70px'} /></div>}
                     {data && <Link to={'/login'}><button className="custom_btn share_btn">Login</button></Link>}
                 </div>
             </form>

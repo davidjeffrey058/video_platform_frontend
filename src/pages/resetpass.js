@@ -3,6 +3,7 @@ import { useState } from "react"
 import { url } from "../methods/urls";
 import Title from "../components/title";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/spinner";
 
 const Resetpass = () => {
     const [email, setEmail] = useState();
@@ -61,7 +62,7 @@ const Resetpass = () => {
 
                 {data && <div className="success">{data.message}</div>}
                 {error && <div className="error">{error}</div>}
-                {isLoading && <div>Loading...</div>}
+                {isLoading && <div style={{ textAlign: 'center' }}><Spinner width={'80px'} /></div>}
 
             </form>
         </div>

@@ -93,10 +93,10 @@ const Home = () => {
 
                 </div>}
 
-                {data && data.doc_count === 0 && <div>No video posted yet</div>}
+                {data && data.doc_count === 0 && <div className='center'>No video posted yet</div>}
 
                 {/* When there is an error */}
-                {error && !data && <p>{error}</p>}
+                {error && !data && <div className='center'><p>{error}</p></div>}
             </div>
 
             {/* Login popup */}
