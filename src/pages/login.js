@@ -1,18 +1,25 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Title from '../components/title';
 import { useLogin } from '../hooks/useLogin';
 import Spinner from '../components/spinner';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Login = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const { user } = useAuthContext();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const { login, isLoading, error } = useLogin();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         await login(email, password);
     }
+
+    useEffect(() => {
+        if (user) navigate('/home');
+    }, [user, navigate]);
 
     return (
         <div className='auth_cont'>
@@ -69,4 +76,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Login;

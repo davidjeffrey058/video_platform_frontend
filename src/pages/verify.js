@@ -42,8 +42,12 @@ const Verify = () => {
             <div style={{ textAlign: 'center' }}>
                 {message && <img src={comm} alt="ok" width={150} />}
                 {message && <h2>{message}</h2>}
-                {error && !message && <img src={errorImg} alt='error' width={150} />}
-                {error && !message && <h2>{error}</h2>}
+
+                {error && !message && <div>
+                    <img src={errorImg} alt='error' width={150} />
+                    <h2>{error}</h2>
+                </div>}
+
                 {message && (
                     <Link to={'/home'}>
                         <button className="custom_btn primary">To Home</button>

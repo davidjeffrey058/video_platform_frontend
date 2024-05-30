@@ -7,6 +7,7 @@ import Signup from './pages/signup';
 import Verify from './pages/verify';
 import Resetpass from './pages/resetpass';
 import ChangePass from './pages/changePass';
+import Redirect from './methods/redirect';
 
 function App() {
   const { user } = useAuthContext();
@@ -16,16 +17,16 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: !user ? <Login /> : <Home />,
+      element: user ? <Redirect /> : <Redirect to={'/login'} />,
       errorElement: <div>404 page not found</div>
     },
     {
       path: '/home',
-      element: user ? <Home /> : <Login />,
+      element: user ? <Home /> : <Redirect to={'/login'} />,
     },
     {
       path: '/login',
-      element: !user ? <Login /> : <Home />
+      element: user ? <Redirect /> : <Login />
     },
     {
       path: '/signup',
@@ -42,7 +43,7 @@ function App() {
     {
       path: '/changepass/:uid/:token',
       element: <ChangePass />
-    }
+    },
   ])
 
   return (
