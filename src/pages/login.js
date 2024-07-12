@@ -4,6 +4,7 @@ import Title from '../components/title';
 import { useLogin } from '../hooks/useLogin';
 import Spinner from '../components/spinner';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { setTitle } from '../methods/title';
 
 const Login = () => {
     const { user } = useAuthContext();
@@ -18,6 +19,7 @@ const Login = () => {
     }
 
     useEffect(() => {
+        setTitle('Login');
         if (user) navigate('/home');
     }, [user, navigate]);
 
@@ -46,10 +48,10 @@ const Login = () => {
                             value="Login" style={{
                                 width: '200px',
                             }} />
-                    </form><br />
+                    </form>
 
                     {isLoading && <Spinner width={'80px'} />}
-
+                    <br />
                     {error && <div className='error'>{error}</div>}
 
                     <div className="mobile_alt">

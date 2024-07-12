@@ -3,6 +3,7 @@ import Title from '../components/title';
 import { useSignup } from '../hooks/useSignup';
 import { Link, } from 'react-router-dom';
 import Spinner from '../components/spinner';
+import { setTitle } from '../methods/title';
 
 const Signup = () => {
     const [email, setEmail] = useState();
@@ -14,6 +15,8 @@ const Signup = () => {
         e.preventDefault();
         await signup(fullname, email, password);
     }
+
+    setTitle('Signup');
 
 
     return (
@@ -40,8 +43,9 @@ const Signup = () => {
                                 width: '200px',
                             }} />
                     </form>
-                    <br />
+
                     {isLoading && <Spinner width={'80px'} />}
+                    <br />
                     {error && <div className='error'>{error}</div>}
                     {message && <div className="success">{message}</div>}
 

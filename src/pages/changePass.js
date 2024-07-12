@@ -4,6 +4,7 @@ import { url } from "../methods/urls";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Spinner from "../components/spinner";
+import { setTitle } from "../methods/title";
 
 const ChangePass = () => {
     const [password, setPassword] = useState();
@@ -11,6 +12,7 @@ const ChangePass = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const { uid, token } = useParams();
+    setTitle('Change Password');
 
     const handleSubmit = async (e) => {
         e.preventDefault();

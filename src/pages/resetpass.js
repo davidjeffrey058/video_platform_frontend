@@ -4,6 +4,7 @@ import { url } from "../methods/urls";
 import Title from "../components/title";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/spinner";
+import { setTitle } from "../methods/title";
 
 const Resetpass = () => {
     const [email, setEmail] = useState();
@@ -11,6 +12,7 @@ const Resetpass = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    setTitle('Reset Password');
 
     const handleSubmit = async (e) => {
         e.preventDefault();

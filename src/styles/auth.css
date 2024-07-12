@@ -37,6 +37,14 @@ h1 {
 .auth_first form .link {
     align-self: flex-end;
     font-weight: bold;
+    color: grey;
+    font-size: 13px;
+    transition: all 0.2s ease-in;
+}
+
+.auth_first form .link:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
 }
 
 .auth_first form input[type="submit"] {
@@ -82,6 +90,12 @@ h1 {
 
     .mobile_alt {
         display: block;
+    }
+
+    .mobile_alt p {
+        font-size: 12px;
+        text-align: center;
+        margin-block: 30px;
     }
 
 }

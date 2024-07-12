@@ -4,12 +4,14 @@ import errorImg from '../images/error.png';
 import { Link, useParams } from 'react-router-dom';
 import { url } from '../methods/urls';
 import Spinner from '../components/spinner';
+import { setTitle } from '../methods/title';
 
 const Verify = () => {
     const { id, token } = useParams();
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    setTitle('Verify Account')
 
     useEffect(() => {
         const verify = async () => {

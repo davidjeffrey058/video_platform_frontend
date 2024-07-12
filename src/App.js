@@ -8,21 +8,23 @@ import Verify from './pages/verify';
 import Resetpass from './pages/resetpass';
 import ChangePass from './pages/changePass';
 import Redirect from './methods/redirect';
+import Page404 from './pages/page404';
 
 function App() {
   const { user } = useAuthContext();
-
-  // const toHome = () => Navigate('/home')
-
   const router = createBrowserRouter([
     {
       path: '/',
       element: user ? <Redirect /> : <Redirect to={'/login'} />,
-      errorElement: <div>404 page not found</div>
+      errorElement: <Page404 />
     },
     {
       path: '/home',
       element: user ? <Home /> : <Redirect to={'/login'} />,
+    },
+    {
+      path: '/home/:vid',
+      element: user ? <Home /> : <Redirect to={'/login'} />
     },
     {
       path: '/login',

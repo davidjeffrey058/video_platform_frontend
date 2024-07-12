@@ -8,6 +8,8 @@ import Icon from '../components/icon';
 import HorizontalSpacer from '../components/horizontalSpacer';
 import AddVideo from '../components/addVideo';
 import Spinner from '../components/spinner';
+import { useParams } from "react-router";
+import { setTitle } from "../methods/title";
 
 const Home = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,6 +18,14 @@ const Home = () => {
     const { logout } = useLogout();
     const [hiddenDialogue, setHiddenDialogue] = useState(true);
     const [hideVideoDialogue, setHideVideoDialogue] = useState(true);
+    const [hideShareDialogue, setHideShareDialogue] = useState(true);
+    const [linkCopied, setLinkedCopied] = useState(false);
+
+    //temp
+    const [file, setFile] = useState(null);
+
+    // console.log(useParams());
+    setTitle('Home');
 
     const handleNext = () => {
         if (data && currentIndex < data.videos.length - 1) {
@@ -31,6 +41,32 @@ const Home = () => {
 
     const handleLogout = () => {
         logout();
+    }
+
+    const copyToClipBoard = (videoId) => {
+        const text = `http://localhost:3000/home/${videoId}`
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                setLinkedCopied(true);
+                setInterval(() => {
+                    setLinkedCopied(false);
+                }, 1000)
+            })
+            .catch(err => {
+                alert('Failed to copy text')
+            });
+    }
+
+    //temp
+    const fileInputChanged = (e) => {
+        const file = e.target.files[0];
+        if (file) setFile(file);
+    }
+
+    //temp
+    const handleFileSubmit = (event) => {
+        event.preventDefault();
+        console.log(file);
     }
 
     return (
@@ -68,13 +104,15 @@ const Home = () => {
                     <h2 className='user_name'>{`Hi, ${user.fullname} ${user.is_admin ? "(admin)" : ''}`}</h2>
                     <p className='user_email'>{user.email}</p>
                     <div className="vid flex spc_btw">
-                        <video src={data.videos[currentIndex].url} className="video_player" controls></video>
+                        <video autoPlay src={data.videos[currentIndex].url} className="video_player" controls></video>
 
                         <div className="info_cont">
                             <div className="vid_info">
                                 <div className="title_share flex spc_btw">
                                     <h3>{data.videos[currentIndex].title}</h3>
-                                    <button disabled className="custom_btn disabled">Share</button>
+                                    <button
+                                        onClick={() => setHideShareDialogue(false)}
+                                        className="custom_btn share_btn">Share</button>
                                 </div>
 
                                 <div className="desc_cont">
@@ -99,6 +137,7 @@ const Home = () => {
                 <div className='center'><p>{error}</p></div>
             )}
 
+            {/* Logout alert dialogue boxx */}
             <PopUp
                 title={'Confirm Logout'}
                 message={'Are you sure you want to logout?'}
@@ -111,6 +150,7 @@ const Home = () => {
                 backgroundClose={() => setHiddenDialogue(true)}
             />
 
+            {/* Upload a video popup dialogue box */}
             {user && user.is_admin && (
                 <PopUp
                     backgroundClose={() => setHideVideoDialogue(true)}
@@ -119,6 +159,35 @@ const Home = () => {
                     action={<AddVideo token={user.token} />}
                 />
             )}
+
+            {/* Share video popup dialogue box */}
+            {data && <PopUp
+                title={'Share video'}
+                hidden={hideShareDialogue}
+                backgroundClose={() => setHideShareDialogue(true)}
+                content={
+                    <div>
+                        <div className="input_field" style={{
+                            overflowX: 'scroll',
+                            scrollbarWidth: 'none',
+                            marginBottom: '20px',
+                        }}>
+                            <p style={{ margin: '0', }}>{`http://localhost:8080/home/${data.videos[currentIndex]._id}`}</p>
+                        </div>
+                        <button
+                            onClick={() => copyToClipBoard(data.videos[currentIndex]._id)}
+                            className="custom_btn share_btn">Copy Link</button>
+                        <br /><br />
+                        {linkCopied && <div className="success">Link copied</div>}
+                    </div>
+                }
+            />}
+
+            {/* temp */}
+            <form onSubmit={handleFileSubmit}>
+                <input type="file" onChange={fileInputChanged} required />
+                <input type="submit" />
+            </form>
         </div>
     );
 }
