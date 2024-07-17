@@ -5,9 +5,10 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Spinner from "../components/spinner";
 import { setTitle } from "../methods/title";
+import PassHelp from "../components/passHelp";
 
 const ChangePass = () => {
-    const [password, setPassword] = useState();
+    const [password, setPassword] = useState('');
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +56,7 @@ const ChangePass = () => {
                     <HorizontalSpacer />
                     <button className={`custom_btn ${isLoading ? 'disabled' : 'primary'} `}>change</button>
                 </div>
+                <PassHelp show={password.length > 0} password={password} />
                 <br />
                 <div className="flex spc_btw">
                     {data && <div className="success">{data.message}</div>}

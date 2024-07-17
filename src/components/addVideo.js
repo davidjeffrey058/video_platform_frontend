@@ -1,6 +1,4 @@
 import { url } from '../methods/urls';
-import { ref, getStorage, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import app from '../services/firebase';
 import { useState } from 'react';
 
 const AddVideo = ({
@@ -9,76 +7,46 @@ const AddVideo = ({
     const [videoTitle, setVideoTitle] = useState('');
     const [videoDescription, setVideoDescription] = useState('');
     const [videoFile, setVideoFile] = useState(null);
-    const [progress, setProgress] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [uploadState, setUploadState] = useState(null);
+    // const [uploadState, setUploadState] = useState(null);
     const [uploadError, setUploadError] = useState(null);
     const [uploadSuccess, setUploadSuccess] = useState(null);
 
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         setUploadSuccess(null);
         setUploadError(null);
-        e.preventDefault();
+        setIsLoading(true);
 
-        const storage = getStorage(app);
-        const storageRef = ref(storage, `videos/${videoFile.name}`);
-
-        const uploadVideo = uploadBytesResumable(storageRef, videoFile);
-
-        uploadVideo.on('state_changed',
-            (snapshot) => {
-                setProgress(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100));
-                switch (snapshot.state) {
-                    case 'paused':
-                        setUploadState('Paused');
-                        break;
-                    case 'running':
-                        setUploadState('Uploading');
-                        break;
-                    default:
-                        setUploadState('error');
+        const formData = new FormData();
+        formData.append('file', videoFile);
+        formData.append('title', videoTitle);
+        formData.append('description', videoDescription);
+        try {
+            const response = await fetch(`${url}/api/videos/upload`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    method: 'POST',
+                    body: formData,
                 }
-            }, (error) => {
-                setProgress(null);
-                setUploadError(error.message);
-            },
-            async () => {
-                try {
-                    const downloadUrl = await getDownloadURL(uploadVideo.snapshot.ref);
-
-                    const response = await fetch(`${url}/api/videos`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            title: videoTitle,
-                            description: videoDescription,
-                            url: downloadUrl
-                        })
-                    });
-
-                    const json = await response.json();
-                    setProgress(null);
-                    setVideoFile(null);
-                    setVideoTitle(null);
-                    setVideoDescription(null);
-
-                    if (response.ok) {
-                        setUploadState('Uploaded');
-                        setUploadSuccess(json.message);
-                    } else {
-                        setUploadError(json.error);
-                    }
-
-                } catch (error) {
-                    setProgress(null);
-                    setUploadError(error.message)
-                }
+            );
+            const data = await response.json();
+            console.log(data);
+            if (response.ok) {
+                setUploadSuccess(data.message);
+            } else {
+                setUploadError(data.error);
             }
-        )
+        } catch (error) {
+            setUploadError(error.message)
+            console.log(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const handleFileInputChange = (e) => {
@@ -88,25 +56,25 @@ const AddVideo = ({
 
     return (
         <form className='add_video_form' onSubmit={handleSubmit}>
-            <input disabled={progress} type="file" accept="video/*" onChange={handleFileInputChange} required /><br />
+            <input disabled={isLoading} type="file" accept="video/*" onChange={handleFileInputChange} required /><br />
 
             {/* Video title */}
-            <input disabled={progress} className='input_field' type="text" required placeholder='Video title'
+            <input disabled={isLoading} className='input_field' type="text" required placeholder='Video title'
                 onChange={(e) => setVideoTitle(e.target.value)} value={videoTitle} /><br />
 
             {/* video description */}
-            <textarea disabled={progress} style={{ height: '100px' }} className='input_field' placeholder='Description'
+            <textarea disabled={isLoading} style={{ height: '100px' }} className='input_field' placeholder='Description'
                 onChange={(e) => setVideoDescription(e.target.value)} required value={videoDescription}></textarea><br />
 
-            <input disabled={progress} className={`custom_btn ${progress ? 'disabled' : 'primary'}`} type="submit" value={'Add video'} /> <br />
+            <input disabled={isLoading} className={`custom_btn ${isLoading ? 'disabled' : 'primary'}`} type="submit" value={'Upload video'} /> <br />
 
-            {progress && <div>
+            {/* {progress && <div>
                 <div className='progress_bar'>
                     <div style={{ width: `${progress}%` }} className='progress_track'></div>
                 </div>
                 <p style={{ marginTop: '5px', fontSize: '11px', fontWeight: '200', textAlign: 'left' }}>{`${uploadState}: ${progress}%`}</p>
-            </div>}
-
+            </div>} */}
+            {isLoading && <p style={{ fontSize: '12px' }}>Uploading video...</p>}
             {uploadError && <div className='error'>{uploadError}</div>}
             {uploadSuccess && <div className='success'>{uploadSuccess}</div>}
         </form>

@@ -3,12 +3,12 @@ import Home from './pages/home';
 import { useAuthContext } from './hooks/useAuthContext';
 import Login from './pages/login';
 import Signup from './pages/signup';
-// import ToHome from './methods/toHome';
 import Verify from './pages/verify';
 import Resetpass from './pages/resetpass';
 import ChangePass from './pages/changePass';
 import Redirect from './methods/redirect';
 import Page404 from './pages/page404';
+import VideoPage from './pages/videoPage';
 
 function App() {
   const { user } = useAuthContext();
@@ -24,7 +24,7 @@ function App() {
     },
     {
       path: '/home/:vid',
-      element: user ? <Home /> : <Redirect to={'/login'} />
+      element: user ? <VideoPage /> : <Login />
     },
     {
       path: '/login',

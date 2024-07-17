@@ -8,23 +8,23 @@ import Icon from '../components/icon';
 import HorizontalSpacer from '../components/horizontalSpacer';
 import AddVideo from '../components/addVideo';
 import Spinner from '../components/spinner';
-import { useParams } from "react-router";
 import { setTitle } from "../methods/title";
 
 const Home = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { user } = useAuthContext();
-    const { data, isLoading, error } = useFetch(`api/videos/all`)
+
+
+    const { data, isLoading, error } = useFetch(`api/videos`)
+
     const { logout } = useLogout();
     const [hiddenDialogue, setHiddenDialogue] = useState(true);
     const [hideVideoDialogue, setHideVideoDialogue] = useState(true);
     const [hideShareDialogue, setHideShareDialogue] = useState(true);
     const [linkCopied, setLinkedCopied] = useState(false);
+    const shareVideoBaseUrl = 'http://localhost:3000/home';
 
-    //temp
-    const [file, setFile] = useState(null);
 
-    // console.log(useParams());
     setTitle('Home');
 
     const handleNext = () => {
@@ -39,12 +39,9 @@ const Home = () => {
         }
     }
 
-    const handleLogout = () => {
-        logout();
-    }
 
     const copyToClipBoard = (videoId) => {
-        const text = `http://localhost:3000/home/${videoId}`
+        const text = `${shareVideoBaseUrl}/${videoId}`;
         navigator.clipboard.writeText(text)
             .then(() => {
                 setLinkedCopied(true);
@@ -57,17 +54,6 @@ const Home = () => {
             });
     }
 
-    //temp
-    const fileInputChanged = (e) => {
-        const file = e.target.files[0];
-        if (file) setFile(file);
-    }
-
-    //temp
-    const handleFileSubmit = (event) => {
-        event.preventDefault();
-        console.log(file);
-    }
 
     return (
         <div className="App">
@@ -75,7 +61,7 @@ const Home = () => {
                 <Title />
                 <div className='header_options'>
                     {user?.is_admin && (
-                        <button className="custom_btn primary add_vid_btn" onClick={() => setHideVideoDialogue(false)}>Add Video</button>
+                        <button className="custom_btn primary add_vid_btn" onClick={() => setHideVideoDialogue(false)}>Upload Video</button>
                     )}
                     {user && (
                         <button className="custom_btn logout outline" onClick={() => setHiddenDialogue(false)}>Log Out</button>
@@ -101,8 +87,10 @@ const Home = () => {
 
             {data && data.videos.length > 0 && (
                 <div>
+
                     <h2 className='user_name'>{`Hi, ${user.fullname} ${user.is_admin ? "(admin)" : ''}`}</h2>
                     <p className='user_email'>{user.email}</p>
+
                     <div className="vid flex spc_btw">
                         <video autoPlay src={data.videos[currentIndex].url} className="video_player" controls></video>
 
@@ -144,7 +132,7 @@ const Home = () => {
                 action={<div>
                     <button className='custom_btn outline' onClick={() => setHiddenDialogue(true)}>Cancel</button>
                     <span style={{ width: '20px', display: 'inline-block' }}></span>
-                    <button className='custom_btn primary' onClick={handleLogout}>Confirm</button>
+                    <button className='custom_btn primary' onClick={() => logout()}>Confirm</button>
                 </div>}
                 hidden={hiddenDialogue}
                 backgroundClose={() => setHiddenDialogue(true)}
@@ -155,7 +143,7 @@ const Home = () => {
                 <PopUp
                     backgroundClose={() => setHideVideoDialogue(true)}
                     hidden={hideVideoDialogue}
-                    title={'Add a video'}
+                    title={'Upload a video'}
                     action={<AddVideo token={user.token} />}
                 />
             )}
@@ -172,7 +160,7 @@ const Home = () => {
                             scrollbarWidth: 'none',
                             marginBottom: '20px',
                         }}>
-                            <p style={{ margin: '0', }}>{`http://localhost:8080/home/${data.videos[currentIndex]._id}`}</p>
+                            <p style={{ margin: '0', }}>{`${shareVideoBaseUrl}/${data.videos[currentIndex]._id}`}</p>
                         </div>
                         <button
                             onClick={() => copyToClipBoard(data.videos[currentIndex]._id)}
@@ -183,11 +171,6 @@ const Home = () => {
                 }
             />}
 
-            {/* temp */}
-            <form onSubmit={handleFileSubmit}>
-                <input type="file" onChange={fileInputChanged} required />
-                <input type="submit" />
-            </form>
         </div>
     );
 }

@@ -4,11 +4,12 @@ import { useSignup } from '../hooks/useSignup';
 import { Link, } from 'react-router-dom';
 import Spinner from '../components/spinner';
 import { setTitle } from '../methods/title';
+import PassHelp from '../components/passHelp';
 
 const Signup = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [fullname, setFullname] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [fullname, setFullname] = useState('');
     const { signup, isLoading, error, message } = useSignup();
 
     const handleSubmit = async (e) => {
@@ -36,10 +37,14 @@ const Signup = () => {
 
                         {/* passwor field */}
                         <input type="password" className='input_field' placeholder='Password' required
-                            minLength={8} value={password} onChange={(e) => { setPassword(e.target.value) }} /><br /><br />
+                            minLength={8} value={password} onChange={(e) => { setPassword(e.target.value) }} />
+
+                        <PassHelp show={password.length > 0} password={password} />
+
+                        <br /><br />
 
                         <input disabled={isLoading} className={`custom_btn ${isLoading ? 'disabled' : 'primary'}`} type="submit"
-                            value="Sign Up" style={{
+                            value="Sign up" style={{
                                 width: '200px',
                             }} />
                     </form>

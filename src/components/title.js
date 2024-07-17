@@ -1,8 +1,10 @@
-import React from 'react'
+import { Link } from "react-router-dom"
 
 const Title = () => {
     return (
-        <h2 className='web_title lobster-regular'>Watchwave</h2>
+        <Link className="link" to={'/home'}>
+            <h2 className='web_title lobster-regular'>Watchwave</h2>
+        </Link>
     )
 }
 

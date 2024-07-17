@@ -67,6 +67,15 @@ h1 {
     display: none;
 }
 
+.verify_pass {
+    align-items: center;
+}
+
+.verify_pass p {
+    margin: 0 0 0 10px;
+    font-size: 12px;
+}
+
 
 @media screen and (max-width: 768px) {
     .auth_first {
