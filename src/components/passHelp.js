@@ -1,4 +1,5 @@
-import React from 'react'
+import checked from '../images/tick-mark.png';
+import close from '../images/close.png';
 
 const PassHelp = ({ show, password }) => {
     const options = [
@@ -11,11 +12,14 @@ const PassHelp = ({ show, password }) => {
     const validated = (index, password) => {
         switch (index) {
             case 0:
-                return false;
+                const regex = /[A-Z]/;
+                return regex.test(password);
             case 1:
-                return false;
+                const numRegex = /[0-9]/;
+                return numRegex.test(password);
             case 2:
-                return false;
+                const charRegex = /[!@#$%^&*(),.?":{}|<>]/;
+                return charRegex.test(password);
             case 3:
                 return password.length >= 8;
             default:
@@ -33,9 +37,9 @@ const PassHelp = ({ show, password }) => {
 
             {options.map((value, index) => (
                 <div key={index} style={{
-                    color: `${validated(index, password) ? 'green' : 'red'}`
-                }} className='verify_pass flex'>
-                    <img src={`./assets/${validated(index, password) ? 'tick-mark.png' : 'close.png'}`}
+                    color: `${validated(index, password) ? 'green' : 'red'}`,
+                }} className='verify_pass'>
+                    <img src={`${validated(index, password) ? checked : close}`}
                         width={validated(index, password) ? 16 : 12} height={validated(index, password) ? 16 : 12} alt='check' />
                     <p>{value}</p>
                 </div>

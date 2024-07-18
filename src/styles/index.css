@@ -366,4 +366,10 @@ button {
   .header_options {
     display: none;
   }
+
+  .v_home {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 12px;
+  }
 }

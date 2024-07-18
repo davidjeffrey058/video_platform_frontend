@@ -52,7 +52,7 @@ const VideoPage = () => {
                         <p className='user_email'>{user.email}</p>
                     </div>
                     <Link to={'/home'}>
-                        <button className='custom_btn primary'>Home</button>
+                        <button className='custom_btn primary v_home'>Home</button>
                     </Link>
                 </div>
 
