@@ -22,8 +22,8 @@ const Home = () => {
     const [hideVideoDialogue, setHideVideoDialogue] = useState(true);
     const [hideShareDialogue, setHideShareDialogue] = useState(true);
     const [linkCopied, setLinkedCopied] = useState(false);
-    const shareVideoBaseUrl = 'http://localhost:3000/home';
-
+    const shareVideoBaseUrl = 'https://video-platfrom-c4585.firebaseapp.com/home';
+    // const shareVideoBaseUrl = 'http://localhost:3000/home'
 
     setTitle('Home');
 
