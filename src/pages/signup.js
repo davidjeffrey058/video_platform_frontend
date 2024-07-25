@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Title from '../components/title';
 import { useSignup } from '../hooks/useSignup';
 import { Link, } from 'react-router-dom';
-import Spinner from '../components/spinner';
 import { setTitle } from '../methods/title';
 import PassHelp from '../components/passHelp';
+import CustomButton from '../components/customButton';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -43,13 +43,8 @@ const Signup = () => {
 
                         <br /><br />
 
-                        <input disabled={isLoading} className={`custom_btn ${isLoading ? 'disabled' : 'primary'}`} type="submit"
-                            value="Sign up" style={{
-                                width: '200px',
-                            }} />
+                        <CustomButton label='Sign Up' type={'submit'} isLoading={isLoading} />
                     </form>
-
-                    {isLoading && <Spinner width={'80px'} />}
                     <br />
                     {error && <div className='error'>{error}</div>}
                     {message && <div className="success">{message}</div>}

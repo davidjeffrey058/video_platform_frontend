@@ -1,5 +1,7 @@
 import { url } from '../methods/urls';
 import { useState } from 'react';
+import Spinner from '../components/spinner';
+import HorizontalSpacer from '../components/horizontalSpacer';
 
 const AddVideo = ({
     token
@@ -74,7 +76,11 @@ const AddVideo = ({
                 </div>
                 <p style={{ marginTop: '5px', fontSize: '11px', fontWeight: '200', textAlign: 'left' }}>{`${uploadState}: ${progress}%`}</p>
             </div>} */}
-            {isLoading && <p style={{ fontSize: '12px' }}>Uploading video...</p>}
+            {isLoading && <div className='flex' style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Spinner width={'20px'} borderWidth={'3px'} />
+                <HorizontalSpacer />
+                <p style={{ fontSize: '12px' }}>Uploading video...</p>
+            </div>}
             {uploadError && <div className='error'>{uploadError}</div>}
             {uploadSuccess && <div className='success'>{uploadSuccess}</div>}
         </form>

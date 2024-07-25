@@ -3,9 +3,9 @@ import { useState } from "react";
 import { url } from "../methods/urls";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Spinner from "../components/spinner";
 import { setTitle } from "../methods/title";
 import PassHelp from "../components/passHelp";
+import CustomButton from "../components/customButton";
 
 const ChangePass = () => {
     const [password, setPassword] = useState('');
@@ -54,15 +54,16 @@ const ChangePass = () => {
                     <input className="input_field reset_field" type="password"
                         required placeholder='Enter new password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     <HorizontalSpacer />
-                    <button className={`custom_btn ${isLoading ? 'disabled' : 'primary'} `}>change</button>
+                    <CustomButton label={`${isLoading ? "" : 'Change'}`} type={'submit'} isLoading={isLoading} />
                 </div>
                 <PassHelp show={password.length > 0} password={password} />
                 <br />
                 <div className="flex spc_btw">
                     {data && <div className="success">{data.message}</div>}
                     {error && <div className="error">{error}</div>}
-                    {isLoading && <div style={{ textAlign: 'center' }}><Spinner width={'70px'} /></div>}
+                    {/* {isLoading && <div style={{ textAlign: 'center' }}><Spinner width={'70px'} /></div>} */}
                     {data && <Link to={'/login'}><button className="custom_btn share_btn">Login</button></Link>}
+
                 </div>
             </form>
         </div>

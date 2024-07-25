@@ -8,6 +8,35 @@ h1 {
     text-align: center;
 }
 
+.sample {
+    width: 250px;
+    position: fixed;
+    padding: 10px;
+    background-color: rgba(17, 195, 17, 0.253);
+    left: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    transition: bottom 0.5s ease-out;
+}
+
+.sample p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.sample p:first-child {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.sample span.icon {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
 .auth_cont .web_title {
     position: absolute;
     left: 20px;
@@ -113,5 +142,9 @@ h1 {
 @media screen and (max-width: 480px) {
     .auth_first {
         padding-inline: 20px;
+    }
+
+    .sample {
+        width: 88%;
     }
 }

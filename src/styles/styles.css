@@ -81,6 +81,24 @@
     transition: width 0.2s ease-in;
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    border: 7px solid var(--lighter-grey);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+
 @media screen and (max-width: 480px) {
     .center form.card {
         width: 85%;

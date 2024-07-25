@@ -23,7 +23,7 @@ function App() {
       element: user ? <Home /> : <Redirect to={'/login'} />,
     },
     {
-      path: '/home/:vid',
+      path: '/video/:vid',
       element: user ? <VideoPage /> : <Login />
     },
     {

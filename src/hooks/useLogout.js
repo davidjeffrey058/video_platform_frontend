@@ -7,6 +7,7 @@ export const useLogout = () => {
     const logout = () => {
         // delete token from local storage
         localStorage.removeItem('user');
+        localStorage.removeItem('videoIndex');
 
         // dispatch logout action
         dispatch({ type: 'LOGOUT' })

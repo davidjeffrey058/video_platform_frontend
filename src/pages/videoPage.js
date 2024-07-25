@@ -98,7 +98,9 @@ const VideoPage = () => {
                 action={<div>
                     <button className='custom_btn outline' onClick={() => setHiddenDialogue(true)}>Cancel</button>
                     <span style={{ width: '20px', display: 'inline-block' }}></span>
-                    <button className='custom_btn primary' onClick={() => logout()}>Confirm</button>
+                    <Link to={'/login'}>
+                        <button className='custom_btn primary' onClick={() => logout()}>Confirm</button>
+                    </Link>
                 </div>}
                 hidden={hiddenDialogue}
                 backgroundClose={() => setHiddenDialogue(true)}

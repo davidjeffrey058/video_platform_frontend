@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuthContext } from './useAuthContext';
 import { url } from '../methods/urls';
 
-const useFetch = (uri, method = 'GET', body = null, statusOkMethod) => {
+const useFetch = (uri, method = 'GET', body = null,) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);

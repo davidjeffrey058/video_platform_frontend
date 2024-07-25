@@ -11,7 +11,7 @@ import Spinner from '../components/spinner';
 import { setTitle } from "../methods/title";
 
 const Home = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(localStorage.getItem('videoIndex') || 0);
     const { user } = useAuthContext();
 
 
@@ -22,20 +22,24 @@ const Home = () => {
     const [hideVideoDialogue, setHideVideoDialogue] = useState(true);
     const [hideShareDialogue, setHideShareDialogue] = useState(true);
     const [linkCopied, setLinkedCopied] = useState(false);
-    const shareVideoBaseUrl = 'https://video-platfrom-c4585.firebaseapp.com/home';
-    // const shareVideoBaseUrl = 'http://localhost:3000/home'
+    const shareVideoBaseUrl = 'https://video-platform-c4585.web.app/video';
+    // const shareVideoBaseUrl = 'http://localhost:3000/video'
 
     setTitle('Home');
+    // data && console.log('data length: ' + data.videos.length);
+    // console.log('current index: ' + currentIndex);
 
     const handleNext = () => {
         if (data && currentIndex < data.videos.length - 1) {
-            setCurrentIndex(currentIndex + 1);
+            localStorage.setItem('videoIndex', Number(currentIndex + 1));
+            setCurrentIndex(Number(currentIndex + 1));
         }
     }
 
     const handlePrev = () => {
         if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
+            localStorage.setItem('videoIndex', Number(currentIndex - 1));
+            setCurrentIndex(Number(currentIndex - 1));
         }
     }
 
@@ -109,8 +113,8 @@ const Home = () => {
                                 </div>
                             </div><br />
                             <div className="flex spc_btw">
-                                <button className={`custom_btn ${currentIndex === 0 ? "disabled" : "primary"}`} onClick={handlePrev} disabled={currentIndex === 0}>Prev</button>
-                                <button className={`custom_btn ${currentIndex === data.videos.length - 1 ? "disabled" : "primary"}`} onClick={handleNext} disabled={currentIndex === data.videos.length - 1}>Next</button>
+                                <button className={`custom_btn ${currentIndex <= 0 ? "disabled" : "primary"}`} onClick={handlePrev} disabled={currentIndex <= 0}>Prev</button>
+                                <button className={`custom_btn ${currentIndex >= data.videos.length - 1 ? "disabled" : "primary"}`} onClick={handleNext} disabled={currentIndex >= data.videos.length - 1}>Next</button>
                             </div>
                         </div>
                     </div>
@@ -149,7 +153,7 @@ const Home = () => {
             )}
 
             {/* Share video popup dialogue box */}
-            {data && <PopUp
+            {data && data.videos.length > 0 && <PopUp
                 title={'Share video'}
                 hidden={hideShareDialogue}
                 backgroundClose={() => setHideShareDialogue(true)}
